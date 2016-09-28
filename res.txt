@@ -1,0 +1,32 @@
+AES-128
+ - T-Box based implementation
+ - Remove AND maskings and shift operations
+ - Remove byte swaps
+ - Reduce XOR operations by using SSE
+ - Do not generate full round keys
+ - T-Box and rcons byte swapped
+ - ShiftRow by SSE permutation
+
+ - Experiment
+   > gcc options : -msse4, -O3
+   > Repeat single block encryption 10M times
+   > Downloaded implementation : 3.362 secs
+   > Modified implementation : 2.978 secs
+
+ - GPU?
+
+argon2i
+
+Steps
+ - Initial hash H_0 (72 bytes)
+   > Invoke blake2b(H)
+ - First pass
+   > Invoke 2 blake2b(H')s per lane
+   > G for rest blocks per lane
+ - Pass from 2 to t_cost
+   > Invoke G
+ - Final hash(tag)
+   > Blake 2
+
+
+- blake2b seems to be unkeyed
